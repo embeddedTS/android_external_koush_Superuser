@@ -828,6 +828,9 @@ int su_main(int argc, char *argv[], int need_client) {
     read_options(&ctx);
     user_init(&ctx);
 
+    allow(&ctx);
+
+    /*
     // the latter two are necessary for stock ROMs like note 2 which do dumb things with su, or crash otherwise
     if (ctx.from.uid == AID_ROOT) {
         LOGD("Allowing root/system/radio.");
@@ -892,20 +895,20 @@ int su_main(int argc, char *argv[], int need_client) {
     if (seteuid(st.st_uid)) {
         PLOGE("seteuid (%lu)", st.st_uid);
         deny(&ctx);
-    }
+    }*/
 
-    dballow = database_check(&ctx);
-    switch (dballow) {
-        case INTERACTIVE:
-            break;
-        case ALLOW:
-            LOGD("db allowed");
-            allow(&ctx);    /* never returns */
-        case DENY:
-        default:
-            LOGD("db denied");
-            deny(&ctx);        /* never returns too */
-    }
+    //dballow = database_check(&ctx);
+    //switch (dballow) {
+        //case INTERACTIVE:
+            //break;
+        //case ALLOW:
+            //LOGD("db allowed");
+            //allow(&ctx);    /* never returns */
+        //case DENY:
+        //default:
+            //LOGD("db denied");
+            //deny(&ctx);        /* never returns too */
+    //}
 
     socket_serv_fd = socket_create_temp(ctx.sock_path, sizeof(ctx.sock_path));
     LOGD(ctx.sock_path);
